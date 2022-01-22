@@ -1,0 +1,41 @@
+.content-wrapper {
+    background-color: #FFFFFF;
+}
+.layout-fixed .brand-link{
+    border-bottom: 1px solid #ffffff;
+}
+.main-sidebar {
+    background-color: #ff5722;
+    padding:0
+}
+.main-sidebar a,
+.main-sidebar span,
+.main-sidebar p,
+.main-sidebar i {
+    color: #FFFFFF
+}
+.nav-sidebar>.nav-item {
+    border-bottom: 1px solid #FFFFFF;
+}
+.nav-sidebar>.nav-item:last-child {
+    border-bottom: none;
+}
+.btn-primary,
+.page-item.active .page-link,
+.nav-sidebar .nav-item.menu-open>.nav-link {
+    background-color: #ff5722;
+    border-color: #ff5722
+}
+a,
+.page-link {
+    color: #ff5722
+}
+.page-item.active .page-link{
+    color: #ffffff
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    background-color: #C43105;
+}
+.nav-treeview .nav-link {
+    padding: .5rem 1rem .5rem 2rem;
+}
