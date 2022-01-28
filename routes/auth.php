@@ -18,6 +18,10 @@ Route::post('/order', [
     App\Http\Controllers\DashboardController::class, 'storeOrder'
 ])->name('dashboard.storeOrder');
 
+Route::put('/order/{id}', [
+    App\Http\Controllers\DashboardController::class, 'updateOrder'
+])->name('dashboard.updateOrder');
+
 Route::get('/advanced_search', [
     App\Http\Controllers\DashboardController::class, 'showAdvancedSearch'
 ])->name('dashboard.advanced_search');

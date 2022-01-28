@@ -3,11 +3,34 @@
 namespace App\Models;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class Detailstbl extends Model
 {
-    use SoftDeletes;
-
     public $table = 'detailstbl';
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'Dealer',
+        'Customer',
+        'ProjectNo',
+        'StartTime',
+        'StartWhere',
+        'IhStaff',
+        'Subs',
+        'Equip',
+        'Vehicles',
+        'Screens',
+        'Opens',
+        'Flats',
+        'LineNo',
+        'Double',
+        'Address',
+        'SiteTime',
+        'Lead',
+        'LeadEmail',
+        'ScreensBk',
+        'OpensBk',
+        'FlatsBk',
+        'EquipBkDate',
+    ];
 }

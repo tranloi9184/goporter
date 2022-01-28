@@ -4,6 +4,15 @@
 .layout-fixed .brand-link{
     border-bottom: 1px solid #ffffff;
 }
+.dataTables_wrapper {
+    margin: 20px;
+}
+
+.required:after {
+    content: '(*)';
+    color: red;
+    padding-left: 5px;
+}
 .main-sidebar {
     background-color: #ff5722;
     padding:0
@@ -38,4 +47,17 @@ a,
 }
 .nav-treeview .nav-link {
     padding: .5rem 1rem .5rem 2rem;
+}
+
+.ui-datepicker-trigger{
+    width: 30px;
+    position: absolute;
+    top: 36px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.required:after {
+    content:" *";
+    color: red;
 }

@@ -22,6 +22,11 @@ class FileUploadRepository extends BaseRepository
     ];
 
     /**
+     * @var array
+     */
+    protected $fieldDateSearchable = [];
+
+    /**
      * Return searchable fields
      *
      * @return array
@@ -37,5 +42,15 @@ class FileUploadRepository extends BaseRepository
     public function model()
     {
         return FileUpload::class;
+    }
+
+    /**
+     * Return searchable date fields
+     *
+     * @return array
+     */
+    public function getFieldDateSearchable()
+    {
+        return $this->fieldDateSearchable;
     }
 }

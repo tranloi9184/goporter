@@ -25,6 +25,11 @@ class PermissionRepository extends BaseRepository
     ];
 
     /**
+     * @var array
+     */
+    protected $fieldDateSearchable = [];
+
+    /**
      * Return searchable fields
      *
      * @return array
@@ -53,5 +58,15 @@ class PermissionRepository extends BaseRepository
         return $this->allQuery([
             'guard_name' => $guard_name
         ])->where('name', 'like', $name)->get();
+    }
+
+    /**
+     * Return searchable date fields
+     *
+     * @return array
+     */
+    public function getFieldDateSearchable()
+    {
+        return $this->fieldDateSearchable;
     }
 }

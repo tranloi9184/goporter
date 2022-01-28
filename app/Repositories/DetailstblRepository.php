@@ -13,11 +13,34 @@ class DetailstblRepository extends BaseRepository
     protected $fieldSearchable = [
         'Dealer',
         'Customer',
-        'InstallNo',
         'ProjectNo',
-        'EquipBkDate',
+        'StartWhere',
+        'IhStaff',
+        'Subs',
+        'Equip',
+        'Vehicles',
+        'Screens',
+        'Opens',
+        'Flats',
+        'LineNo',
+        'Double',
+        'Address',
+        'Lead',
+        'LeadEmail',
+        'ScreensBk',
+        'OpensBk',
+        'FlatsBk',
     ];
 
+    /**
+     * @var array
+     */
+    protected $fieldDateSearchable = [
+        'StartTime',
+        'SiteTime',
+        'EquipBkDate',
+    ];
+  
     /**
      * Return searchable fields
      *
@@ -29,10 +52,39 @@ class DetailstblRepository extends BaseRepository
     }
 
     /**
+     * Return searchable date fields
+     *
+     * @return array
+     */
+    public function getFieldDateSearchable()
+    {
+        return $this->fieldDateSearchable;
+    }
+    /**
      * Configure the Model
      **/
     public function model()
     {
         return Detailstbl::class;
+    }
+
+    public function store ($input){
+        $vehicles = $input['Vehicles'];
+        if($vehicles && is_array($vehicles)){
+            $vehicles = implode(',', $vehicles);
+        }
+        $input['Vehicles'] = $vehicles;
+        $input['InstallNo'] = (int)$input['InstallNo'];
+        return $this->create($input);
+    }
+
+    public function edit ($input, $id){
+        $vehicles = $input['Vehicles'];
+        if($vehicles && is_array($vehicles)){
+            $vehicles = implode(',', $vehicles);
+        }
+        $input['Vehicles'] = $vehicles;
+        $input['InstallNo'] = (int)$input['InstallNo'];
+        return $this->update($input, $id);
     }
 }

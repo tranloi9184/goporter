@@ -4,8 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
-
-
+use Illuminate\Support\Carbon;
 abstract class BaseRepository
 {
     /**
@@ -45,6 +44,13 @@ abstract class BaseRepository
      * @return array
      */
     abstract public function getFieldsSearchable();
+
+    /**
+     * Get date searchable fields array
+     *
+     * @return array
+     */
+    abstract public function getFieldDateSearchable();
 
     /**
      * Configure the Model
@@ -220,11 +226,15 @@ abstract class BaseRepository
         $sortOrder = isset($params['sortOrder']) ? $params['sortOrder'] : self::SORT_ORDER;
         $columns = isset($params['columns']) ? $params['columns'] : ['*'];
         $query = $this->model->newQuery();
-
         if (count($search) > 0) {
             foreach ($search as $key => $value) {
-                if (in_array($key, $this->getFieldsSearchable()) && !empty($value)) {
-                    $query->where($key, $value);
+                if(!empty($value)){
+                    if (in_array($key, $this->getFieldsSearchable())) {
+                        $query->where($key, $value);
+                    }
+                    if (in_array($key, $this->getFieldDateSearchable())) {
+                        $query->where($key, '<', $value);
+                    }
                 }
             }
         }

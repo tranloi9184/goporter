@@ -25,7 +25,12 @@ class AttendanceRepository extends BaseRepository
         'time_in',
         'time_out'
     ];
-
+    
+     /**
+     * @var array
+     */
+    protected $fieldDateSearchable = [];
+    
     /**
      * Return searchable fields
      *
@@ -64,5 +69,15 @@ class AttendanceRepository extends BaseRepository
             $query->where('day', '<=', $to);
         }
         return $query->groupBy('day')->select('day', DB::Raw('count(0) as total'))->pluck('total', 'day');
+    }
+
+    /**
+     * Return searchable date fields
+     *
+     * @return array
+     */
+    public function getFieldDateSearchable()
+    {
+        return $this->fieldDateSearchable;
     }
 }

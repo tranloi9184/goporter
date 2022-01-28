@@ -41,6 +41,21 @@ class DashboardRepository
         $this->detailstblRepository->create($request);
     }
 
+    public function updateOrder($request)
+    {
+        $this->detailstblRepository->create($request);
+    }
+
+    public function find($id)
+    {
+        $this->detailstblRepository->find($id);
+    }
+
+    public function update($request, $id)
+    {
+        $this->detailstblRepository->update($request, $id);
+    }
+
     public function advancedSearch($request)
     {
         return $this->getDashboardInfo($request);

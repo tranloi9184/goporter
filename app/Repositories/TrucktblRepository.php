@@ -2,22 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\Trucktbl;
 use App\Repositories\BaseRepository;
 
-class UserRepository extends BaseRepository
+class TrucktblRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'name',
-        'first_name',
-        'last_name',
-        'avatar',
-        'email'
+        'Truck',
     ];
-
+  
     /**
      * @var array
      */
@@ -34,14 +30,6 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Configure the Model
-     **/
-    public function model()
-    {
-        return User::class;
-    }
-
-    /**
      * Return searchable date fields
      *
      * @return array
@@ -49,5 +37,25 @@ class UserRepository extends BaseRepository
     public function getFieldDateSearchable()
     {
         return $this->fieldDateSearchable;
+    }
+
+    /**
+     * Configure the Model
+     **/
+    public function model()
+    {
+        return Trucktbl::class;
+    }
+
+    /*get select options */
+    public function getSelectOptions(){
+        $trucks = $this->all();
+        $data = [];
+        if(count($trucks) > 0){
+            foreach($trucks as $key=>$truck){
+                $data[$truck->ID] = $truck->Truck;
+            }
+        }
+        return $data;
     }
 }

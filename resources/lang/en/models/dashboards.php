@@ -13,7 +13,8 @@ return [
     |
     */
     'header' => [
-        'index' => 'Orders'
+        'index' => 'Orders',
+        'advanced_search' => 'Advanced Search',
     ],
     'fields' => [
         'user_id' => 'Full name',

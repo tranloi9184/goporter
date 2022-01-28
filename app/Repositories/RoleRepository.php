@@ -24,6 +24,11 @@ class RoleRepository extends BaseRepository
     ];
 
     /**
+     * @var array
+     */
+    protected $fieldDateSearchable = [];
+
+    /**
      * Return searchable fields
      *
      * @return array
@@ -39,5 +44,15 @@ class RoleRepository extends BaseRepository
     public function model()
     {
         return Role::class;
+    }
+
+    /**
+     * Return searchable date fields
+     *
+     * @return array
+     */
+    public function getFieldDateSearchable()
+    {
+        return $this->fieldDateSearchable;
     }
 }

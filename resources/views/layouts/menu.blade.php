@@ -38,7 +38,7 @@ $isOpenMenu = Request::is($urlAdmin) || Request::is('admin/order') || Request::i
         </li>
 
         <li class="nav-item">
-            <a href="{{ route('dashboard.advanced_search') }}" class="nav-link {{ Request::is('advanced_search*') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.advanced_search') }}" class="nav-link {{ Request::is('admin/advanced_search') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-file-alt"></i>
                 <p>@lang('menu.advanced_search')</p>
             </a>
