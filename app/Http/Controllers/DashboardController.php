@@ -144,4 +144,31 @@ class DashboardController extends Controller
         $data['trucks'] = $this->trucktblRepository->getSelectOptions();
         return view('dashboard.advanced_search', $data);
     }
+
+    /**
+     * Show schedules.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function schedules (Request $request)
+    {
+        $data = [];
+        $data['detailstbls_count'] = 0;
+        $data['detailstbls'] = [];
+        return view('dashboard.schedules', $data);
+    }
+
+     /**
+     * handle search schedules
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function searchSchedules (Request $request)
+    {
+        $data = [];
+        $data['detailstbls_count'] =  $this->detailstblRepository->count();
+        $data['detailstbls'] =  $this->detailstblRepository->searchEquipBkDate($request->all());
+        $data['postSearch'] = true;
+        return view('dashboard.schedules', $data);
+    }
 }

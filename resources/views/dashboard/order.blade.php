@@ -76,7 +76,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                {!! Form::label('Vehicles', 'Vehicle') !!}
+                                {!! Form::label('Vehicles', 'Vehicles') !!}
                                 <!-- {!! Form::select('Vehicle', array('0' => 'Vehicle', '12984' => 'Complete - Billable', '13014' => 'Approved to Invoice', '48' => 'Invoiced', '9535869' => 'Cancelled', '49' => 'Quote Expired'), '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::select('Vehicles', $trucks, '0', ['class' => 'form-control custom-select', 'multiple'=>'multiple','name'=>'Vehicles[]']); !!}
                             </div>

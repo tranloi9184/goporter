@@ -61,3 +61,10 @@ a,
     content:" *";
     color: red;
 }
+
+.modal-header {
+    padding: .5rem 1rem;
+}
+.card-body {
+    padding: 1rem 1.25rem;
+}

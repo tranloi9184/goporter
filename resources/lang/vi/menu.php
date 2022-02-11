@@ -25,6 +25,4 @@ return [
     'attendances'=>[
         'title'=>'Chấm công'
     ]
-
-
 ];

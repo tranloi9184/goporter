@@ -253,7 +253,8 @@
                             <?php $btnSubmitId = 'btn-order-'.$detailstbl['id']; ?>
                             {!! Form::submit('Save', ['class' => 'btn btn-submit btn-primary', 'id' => $btnSubmitId]) !!}
                             <!-- <button type="button" class="btn btn-primary" id="btn-save" onclick="showDialog(true, `order-{{ $detailstbl['id'] }}`)">Save</button> -->
-                            <button type="button" class="btn btn-danger" onclick="showDialog(false, `modal-{{ $detailstbl['id'] }}`)">Cancel</button>
+                            <!-- <button type="button" class="btn btn-danger" onclick="showDialog(false, `modal-{{ $detailstbl['id'] }}`)">Cancel</button> -->
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
                         </div>
                         {!! Form::close() !!}
                     </div>
@@ -322,7 +323,7 @@
         $.dialog.confirm('Title', isSubmit ? 'Confirm Save' : 'Confirm Cancel', function(res){
             if(res){
                 if(isSubmit){
-                    console.log('modalId', modalId);
+               //     console.log('modalId', modalId);
                     isSubmitForm = true;
                     $('#' + modalId).click();
                 }else{
@@ -331,5 +332,5 @@
             }
         })
     }
-  </script>
+</script>
 @endsection

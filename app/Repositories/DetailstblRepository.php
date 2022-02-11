@@ -4,9 +4,14 @@ namespace App\Repositories;
 
 use App\Models\Detailstbl;
 use App\Repositories\BaseRepository;
-
+use Illuminate\Support\Facades\DB;
 class DetailstblRepository extends BaseRepository
 {
+    /**
+     * @var pagination limit
+     */
+    const PAGING_LIMIT = 15;
+
     /**
      * @var array
      */
@@ -69,9 +74,9 @@ class DetailstblRepository extends BaseRepository
     }
 
     public function store ($input){
-        $vehicles = $input['Vehicles'];
-        if($vehicles && is_array($vehicles)){
-            $vehicles = implode(',', $vehicles);
+        $vehicles = '';
+        if(isset($input['Vehicles']) && is_array($input['Vehicles'])){
+            $vehicles = implode(',', $input['Vehicles']);
         }
         $input['Vehicles'] = $vehicles;
         $input['InstallNo'] = (int)$input['InstallNo'];
@@ -86,5 +91,35 @@ class DetailstblRepository extends BaseRepository
         $input['Vehicles'] = $vehicles;
         $input['InstallNo'] = (int)$input['InstallNo'];
         return $this->update($input, $id);
+    }
+
+    /* search schedules */
+    public function searchEquipBkDate ($params)
+    {
+        //DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
+        $fromDate = isset($params['fromDate']) ? $params['fromDate'] : null;
+        $toDate = isset($params['toDate']) ? $params['toDate'] : null;
+        $limit = isset($params['limit']) ? $params['limit'] : self::PAGING_LIMIT;
+        $columns = isset($params['columns']) ? $params['columns'] : ['*'];
+        $query = $this->model->newQuery();
+        if ($fromDate) {
+            $query->where('EquipBkDate', '>=', $fromDate);
+        }
+        if ($toDate) {
+            $query->where('EquipBkDate', '<=', $toDate);
+        }
+        //$query->groupBy('EquipBkDate');
+        $result = $query->paginate($limit, $columns);
+        $data = [];
+        if($result->total() > 0){
+            foreach ($result as $key=>$item){
+                $equipBkDate = date('d-m-Y', strtotime($item->EquipBkDate));
+                if(!array_key_exists($equipBkDate, $data)){
+                    $data[$equipBkDate] = [];
+                }
+                array_push($data[$equipBkDate], $item);
+            }
+        }
+        return $data;
     }
 }

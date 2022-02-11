@@ -31,7 +31,7 @@ $isOpenMenu = Request::is($urlAdmin) || Request::is('admin/order') || Request::i
         </li>
 
         <li class="nav-item">
-            <a href="#" class="nav-link {{ Request::is('schedule*') ? 'active' : '' }}">
+            <a href="{{ route('dashboard.schedules') }}" class="nav-link {{ Request::is('schedule*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-file-alt"></i>
                 <p>@lang('menu.schedules')</p>
             </a>

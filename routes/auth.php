@@ -30,6 +30,14 @@ Route::post('/advanced_search', [
     App\Http\Controllers\DashboardController::class, 'handleAdvancedSearch'
 ])->name('dashboard.advanced_search');
 
+Route::get('/schedules', [
+    App\Http\Controllers\DashboardController::class, 'schedules'
+])->name('dashboard.schedules');
+
+Route::post('/schedules', [
+    App\Http\Controllers\DashboardController::class, 'searchSchedules'
+])->name('dashboard.schedules');
+
 Route::resource('permissions', App\Http\Controllers\PermissionController::class);
 Route::post('permissions/loadFromRouter', [App\Http\Controllers\PermissionController::class, 'LoadPermission'])->name('permissions.load-router');
 
