@@ -57,6 +57,6 @@ class IhStafftblRepository extends BaseRepository
                 $data[$ihStaff->IHStaff] = $ihStaff->IHStaff;
             }
         }
-        return $data;
+        return array_unique($data);
     }
 }

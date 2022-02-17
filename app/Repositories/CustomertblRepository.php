@@ -57,6 +57,6 @@ class CustomertblRepository extends BaseRepository
                 $data[$customers->Customer] = $customers->Customer;
             }
         }
-        return $data;
+        return array_unique($data);
     }
 }

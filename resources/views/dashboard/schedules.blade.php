@@ -108,7 +108,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">@lang('models/dashboards.header.index')</h1>
+                <h1 class="m-0">@lang('common.module.schedules')</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -131,11 +131,11 @@
                     <div class="card-body">
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                {!! Form::label('fromDate', 'From Date:') !!}
+                                {!! Form::label('fromDate', 'From:') !!}
                                 {!! Form::text('fromDate', null, ['class' => 'form-control', 'id' => 'datepicker1']) !!}
                             </div>
                             <div class="form-group col-sm-4">
-                                {!! Form::label('toDate', 'To Date:') !!}
+                                {!! Form::label('toDate', 'To:') !!}
                                 {!! Form::text('toDate', null, ['class' => 'form-control', 'id' => 'datepicker2']) !!}
                             </div>
                         </div>

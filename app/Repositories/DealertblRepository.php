@@ -57,6 +57,6 @@ class DealertblRepository extends BaseRepository
                 $data[$dealer->Dealer] = $dealer->Dealer;
             }
         }
-        return $data;
+        return array_unique($data);
     }
 }

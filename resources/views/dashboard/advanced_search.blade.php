@@ -51,12 +51,10 @@
                         <div class="form-row">
                             <div class="form-group col-sm-4 ">
                                 {!! Form::label('Dealer', 'Dealer') !!}
-                                <!-- {!! Form::select('Dealer', array('0' => 'Dealer', '12984' => 'Complete - Billable', '13014' => 'Approved to Invoice', '48' => 'Invoiced', '9535869' => 'Cancelled', '49' => 'Quote Expired'), '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::select('Dealer', $dealers, '0', ['class' => 'form-control custom-select']); !!}
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Customer', 'Customer') !!}
-                                <!-- {!! Form::select('Customer', array('0' => 'Customer', '12984' => 'Complete - Billable', '13014' => 'Approved to Invoice', '48' => 'Invoiced', '9535869' => 'Cancelled', '49' => 'Quote Expired'), '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::select('Customer', $customers, '0', ['class' => 'form-control custom-select']); !!}
                             </div>
                         </div>
@@ -72,54 +70,18 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                {!! Form::label('StartTime', 'Start Time') !!}
-                                {!! Form::text('StartTime', null, ['class' => 'form-control datepicker']) !!}
-                            </div>
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('SiteTime', 'Site Time') !!}
-                                {!! Form::text('SiteTime', null, ['class' => 'form-control datepicker']) !!}
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-sm-4">
                                 {!! Form::label('IhStaff', 'IhStaff') !!}
-                                <!-- {!! Form::select('IhStaff', array('0' => 'IhStaff', '12984' => 'Complete - Billable', '13014' => 'Approved to Invoice', '48' => 'Invoiced', '9535869' => 'Cancelled', '49' => 'Quote Expired'), '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::select('IhStaff', $ihstaffs, '0', ['class' => 'form-control custom-select']); !!}
                             </div>
                             <div class="form-group col-sm-4">
-                                {!! Form::label('Subs', 'Subs') !!}
-                                {!! Form::text('Subs', null, ['class' => 'form-control']) !!}
+                                {!! Form::label('InstallNo', 'Install No') !!}
+                                <input type="number" name="InstallNo" class="form-control" />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Vehicles', 'Vehicle') !!}
-                                <!-- {!! Form::select('Vehicle', array('0' => 'Vehicle', '12984' => 'Complete - Billable', '13014' => 'Approved to Invoice', '48' => 'Invoiced', '9535869' => 'Cancelled', '49' => 'Quote Expired'), '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::select('Vehicles', $trucks, '0', ['class' => 'form-control custom-select', 'multiple'=>'multiple','name'=>'Vehicles[]']); !!}
-                            </div>
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('Screens', 'Screens') !!}
-                                <input type="number" name="Screens" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('Dolies', 'Dolies') !!}
-                                <input type="number" name="Dolies" class="form-control" />
-                            </div>
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('Opens', 'Opens') !!}
-                                <input type="number" name="Opens" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('Misc', 'Misc') !!}
-                                {!! Form::text('Misc', null, ['class' => 'form-control']) !!}
-                            </div>
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('InstallNo', 'Install No') !!}
-                                <input type="number" name="InstallNo" class="form-control" />
                             </div>
                         </div>
                     </div>

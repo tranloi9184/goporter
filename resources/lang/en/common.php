@@ -24,6 +24,7 @@ return [
         'advanced_search'=>'Advanced Search',
         'queues'=>'Queues',
         'schedules'=>'Schedules',
+        'newOrder'=>'New Order',
     ],
     'permission' => [
         'home' => 'Access Home Page',

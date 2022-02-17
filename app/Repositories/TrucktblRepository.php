@@ -56,6 +56,6 @@ class TrucktblRepository extends BaseRepository
                 $data[$truck->ID] = $truck->Truck;
             }
         }
-        return $data;
+        return array_unique($data);
     }
 }

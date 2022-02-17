@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">@lang('models/dashboards.header.index')</h1>
+                <h1 class="m-0">@lang('common.module.queues')</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -111,8 +111,8 @@
                             <td>{{ $detailstbl['Customer'] }}</td>
                             <td>{{ $detailstbl['Address'] }}</td>
                             <td>{{ $detailstbl['ProjectNo'] }}</td>
-                            <td>{{ date('Y-m-d H:i:s', strtotime($detailstbl['StartTime'])) }}</td>
-                            <td>{{ date('Y-m-d H:i:s', strtotime($detailstbl['SiteTime'])) }}</td>
+                            <td>{{ date('Y-m-d', strtotime($detailstbl['StartTime'])) }}</td>
+                            <td>{{ date('Y-m-d', strtotime($detailstbl['SiteTime'])) }}</td>
                             <td>{{ $detailstbl['IhStaff'] }}</td>
                             <td>{{ $detailstbl['Subs'] }}</td>
                             <td>{{ $detailstbl['Vehicles'] }}</td>
@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('StartTime', 'Start Time') !!}
-                                    {!! Form::text('StartTime', $detailstbl['StartTime'], ['class' => 'form-control', 'id' => 'datepicker-starttime-'.$key]) !!}
+                                    {!! Form::text('StartTime', date('Y-m-d', strtotime($detailstbl['StartTime'])), ['class' => 'form-control', 'id' => 'datepicker-starttime-'.$key]) !!}
                                 </div>
                             </div>
                             <div class="form-row">
@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('SiteTime', 'SiteTime') !!}
-                                    {!! Form::text('SiteTime', $detailstbl['SiteTime'], ['class' => 'form-control', 'id' => 'datepicker-sitetime-'.$key]) !!}
+                                    {!! Form::text('SiteTime', date('Y-m-d', strtotime($detailstbl['SiteTime'])), ['class' => 'form-control', 'id' => 'datepicker-sitetime-'.$key]) !!}
                                 </div>
                             </div>
                             <div class="form-row">
@@ -239,7 +239,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('Date', 'Date') !!}
-                                    {!! Form::text('EquipBkDate', $detailstbl['EquipBkDate'], ['class' => 'form-control', 'id'=>'datepicker-equip-'.$key]) !!}
+                                    {!! Form::text('EquipBkDate', date('Y-m-d', strtotime($detailstbl['EquipBkDate'])), ['class' => 'form-control', 'id'=>'datepicker-equip-'.$key]) !!}
                                 </div>
                             </div>
                             <div class="form-row">
