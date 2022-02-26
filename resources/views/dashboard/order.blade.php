@@ -115,13 +115,11 @@
                         <div class="form-row">
                             <div class="form-group col-sm-4 ">
                                 {!! Form::label('Dealer', 'Dealer') !!}
-                                <!-- {!! Form::select('Dealer', $dealers, '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::text('Dealer', null, ['class' => 'form-control', 'id' => 'search-box-dealer']) !!}
 	                            <select class="suggestion-box" id="suggestion-box-dealer"></select>
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Customer', 'Customer') !!}
-                                <!-- {!! Form::select('Customer', $customers, '0', ['class' => 'form-control custom-select']); !!} -->
                                 {!! Form::text('Customer', null, ['class' => 'form-control', 'id' => 'search-box-customer']) !!}
                                 <select class="suggestion-box" id="suggestion-box-customer"></select>
                             </div>
@@ -170,11 +168,11 @@
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Dolies', 'Dolies') !!}
-                                <input type="number" name="Dolies" class="form-control" />
+                                <input type="text" name="Dolies" class="form-control" />
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Opens', 'Opens') !!}
-                                <input type="number" name="Opens" class="form-control" />
+                                <input type="text" name="Opens" class="form-control" />
                             </div>
                         </div>
                         <div class="form-row">

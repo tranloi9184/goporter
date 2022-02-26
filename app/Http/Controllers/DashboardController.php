@@ -77,8 +77,8 @@ class DashboardController extends Controller
      */
     public function createOrder ()
     {
-        $data['dealers'] = $this->dealertblRepository->getSelectOptions();
-        $data['customers'] = $this->customertblRepository->getSelectOptions();
+       // $data['dealers'] = $this->dealertblRepository->getSelectOptions();
+        //$data['customers'] = $this->customertblRepository->getSelectOptions();
         $data['ihstaffs'] = $this->ihStafftblRepository->getSelectOptions();
         $data['trucks'] = $this->trucktblRepository->getSelectOptions();
         return view('dashboard.order', $data);
