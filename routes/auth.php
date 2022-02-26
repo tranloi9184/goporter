@@ -38,6 +38,10 @@ Route::post('/schedules', [
     App\Http\Controllers\DashboardController::class, 'searchSchedules'
 ])->name('dashboard.schedules');
 
+Route::post('/suggest_search', [
+    App\Http\Controllers\DashboardController::class, 'suggestSearch'
+])->name('dashboard.suggestSearch');
+
 Route::resource('permissions', App\Http\Controllers\PermissionController::class);
 Route::post('permissions/loadFromRouter', [App\Http\Controllers\PermissionController::class, 'LoadPermission'])->name('permissions.load-router');
 

@@ -177,14 +177,14 @@
                                     <span class="col-sm-2">{{$detail['Dealer']}}</span>
                                     <span class="col-sm-2">{{$detail['Customer']}}</span>
                                     <span class="col-sm-2">{{$detail['ProjectNo']}}</span>
-                                    <span class="col-sm-3">{{ date('H:i', strtotime($detail['StartTime']))}}</span>
+                                    <span class="col-sm-3">{{ date('h:i A', strtotime($detail['StartTime']))}}</span>
                                     <span class="col-sm-3">{{$detail['StartWhere']}}</span>
                                 </div>
                                 <div class="row">
                                     <span class="col-sm-2"></span>
                                     <span class="col-sm-3">{{$detail['Address']}}</span>
                                     <span class="col-sm-2"></span>
-                                    <span class="col-sm-3">{{date('H:i', strtotime($detail['SiteTime']))}}</span>
+                                    <span class="col-sm-3">{{ date('h:i A', strtotime($detail['SiteTime']))}}</span>
                                     <span class="col-sm-2"></span>
                                 </div>
                                 <div class="row font-weight-bold">

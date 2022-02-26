@@ -111,8 +111,8 @@
                             <td>{{ $detailstbl['Customer'] }}</td>
                             <td>{{ $detailstbl['Address'] }}</td>
                             <td>{{ $detailstbl['ProjectNo'] }}</td>
-                            <td>{{ date('Y-m-d', strtotime($detailstbl['StartTime'])) }}</td>
-                            <td>{{ date('Y-m-d', strtotime($detailstbl['SiteTime'])) }}</td>
+                            <td>{{ date('h:i A', strtotime($detailstbl['StartTime'])) }}</td>
+                            <td>{{ date('h:i A', strtotime($detailstbl['SiteTime'])) }}</td>
                             <td>{{ $detailstbl['IhStaff'] }}</td>
                             <td>{{ $detailstbl['Subs'] }}</td>
                             <td>{{ $detailstbl['Vehicles'] }}</td>
@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('StartTime', 'Start Time') !!}
-                                    {!! Form::text('StartTime', date('Y-m-d', strtotime($detailstbl['StartTime'])), ['class' => 'form-control', 'id' => 'datepicker-starttime-'.$key]) !!}
+                                    {!! Form::text('StartTime', date('h:i A', strtotime($detailstbl['StartTime'])), ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="form-row">
@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('SiteTime', 'SiteTime') !!}
-                                    {!! Form::text('SiteTime', date('Y-m-d', strtotime($detailstbl['SiteTime'])), ['class' => 'form-control', 'id' => 'datepicker-sitetime-'.$key]) !!}
+                                    {!! Form::text('SiteTime', date('h:i A', strtotime($detailstbl['SiteTime'])), ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="form-row">

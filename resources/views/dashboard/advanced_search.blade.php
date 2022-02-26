@@ -137,8 +137,8 @@
                             <td>{{ $detailstbl['Customer'] }}</td>
                             <td>{{ $detailstbl['Address'] }}</td>
                             <td>{{ $detailstbl['ProjectNo'] }}</td>
-                            <td>{{ date('Y-m-d H:i:s', strtotime($detailstbl['StartTime'])) }}</td>
-                            <td>{{ date('Y-m-d H:i:s', strtotime($detailstbl['SiteTime'])) }}</td>
+                            <td>{{ date('h:i A', strtotime($detailstbl['StartTime'])) }}</td>
+                            <td>{{ date('h:i A', strtotime($detailstbl['SiteTime'])) }}</td>
                             <td>{{ $detailstbl['IhStaff'] }}</td>
                             <td>{{ $detailstbl['Subs'] }}</td>
                             <td>{{ $detailstbl['Vehicles'] }}</td>
@@ -172,7 +172,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('StartTime', 'Start Time') !!}
-                                    {!! Form::text('StartTime', $detailstbl['StartTime'], ['class' => 'form-control datepicker']) !!}
+                                    {!! Form::text('StartTime', $detailstbl['StartTime'], ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="form-row">
@@ -232,7 +232,7 @@
                                 </div>
                                 <div class="form-group col-sm-6">
                                     {!! Form::label('SiteTime', 'SiteTime') !!}
-                                    {!! Form::text('SiteTime', $detailstbl['SiteTime'], ['class' => 'form-control datepicker']) !!}
+                                    {!! Form::text('SiteTime', $detailstbl['SiteTime'], ['class' => 'form-control']) !!}
                                 </div>
                             </div>
                             <div class="form-row">

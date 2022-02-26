@@ -10,6 +10,7 @@ use App\Repositories\DetailstblRepository;
 use App\Repositories\CustomertblRepository;
 use App\Repositories\IhStafftblRepository;
 use App\Repositories\TrucktblRepository;
+use Exception;
 use Flash;
 class DashboardController extends Controller
 {
@@ -170,5 +171,27 @@ class DashboardController extends Controller
         $data['detailstbls'] =  $this->detailstblRepository->searchEquipBkDate($request->all());
         $data['postSearch'] = true;
         return view('dashboard.schedules', $data);
+    }
+
+    /**
+     * handle suggest search
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function suggestSearch (Request $request)
+    {
+        try {
+            $data = $this->detailstblRepository->suggestSearch($request);
+            return response()->json([
+                'success'=> true,
+                'data' => $data
+            ]);
+        }catch(Exception $ex){
+            $data = $this->detailstblRepository->suggestSearch($request);
+            return response()->json([
+                'success'=> false,
+                'message' => $ex->getMessage()
+            ]);
+        }
     }
 }

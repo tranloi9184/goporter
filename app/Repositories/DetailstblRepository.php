@@ -122,4 +122,30 @@ class DetailstblRepository extends BaseRepository
         }
         return $data;
     }
+
+    /* suggest search */
+    public function suggestSearch ($params)
+    {
+        //DB::enableQueryLog();
+        //DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
+        $dealer = isset($params['dealer']) ? trim($params['dealer']) : '';
+        $customer = isset($params['customer']) ? trim($params['customer']) : '';
+        $query = DB::table('detailstbl');
+        $result = [];
+        if ($dealer) {
+            $query->select('Dealer')
+                    ->where('Dealer', 'like', '%'.$dealer.'%')
+                    ->distinct();
+            $result = $query->get();
+        }
+        if ($customer) {
+            $query->select('Customer')
+                    ->where('Customer', 'like', '%'.$customer.'%')
+                    ->distinct()
+                    ->distinct();
+            $result = $query->get();
+        }
+        //dd(DB::getQueryLog());
+        return $result;
+    }
 }

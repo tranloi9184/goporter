@@ -81,7 +81,9 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-
+.suggestion-box {
+    display: none;
+}
 </style>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -114,12 +116,14 @@
                             <div class="form-group col-sm-4 ">
                                 {!! Form::label('Dealer', 'Dealer') !!}
                                 <!-- {!! Form::select('Dealer', $dealers, '0', ['class' => 'form-control custom-select']); !!} -->
-                                {!! Form::text('Dealer', null, ['class' => 'form-control']) !!}
+                                {!! Form::text('Dealer', null, ['class' => 'form-control', 'id' => 'search-box-dealer']) !!}
+	                            <select class="suggestion-box" id="suggestion-box-dealer"></select>
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Customer', 'Customer') !!}
                                 <!-- {!! Form::select('Customer', $customers, '0', ['class' => 'form-control custom-select']); !!} -->
-                                {!! Form::text('Customer', null, ['class' => 'form-control']) !!}
+                                {!! Form::text('Customer', null, ['class' => 'form-control', 'id' => 'search-box-customer']) !!}
+                                <select class="suggestion-box" id="suggestion-box-customer"></select>
                             </div>
                         </div>
                         <div class="form-row">
@@ -135,11 +139,11 @@
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 {!! Form::label('StartTime', 'Start Time') !!}
-                                {!! Form::text('StartTime', null, ['class' => 'form-control datepicker']) !!}
+                                {!! Form::text('StartTime', null, ['class' => 'form-control']) !!}
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('SiteTime', 'Site Time') !!}
-                                {!! Form::text('SiteTime', null, ['class' => 'form-control datepicker']) !!}
+                                {!! Form::text('SiteTime', null, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="form-row">
@@ -214,5 +218,67 @@
       buttonText: "Select date",
     });
   });
+  var suggestSearchUrl = `{{ route('dashboard.suggestSearch') }}`;
+  $(document).ready(function(){
+	$("#search-box-dealer").on("input", function() {
+        $("#suggestion-box-dealer").hide();
+        $("#suggestion-box-dealer").html('');
+        $("#suggestion-box-dealer").append($('<option value="">Choose an item</option>'));
+		$.ajax({
+            type: "POST",
+            url: suggestSearchUrl,
+            data: {
+                'dealer': $(this).val(),
+                '_token': `{{ csrf_token() }}`,
+            },
+            beforeSend: function(){
+                $("#search-box-dealer").css("background",`#FFF url({{ URL::to('/') }}/images/loaderIcon.gif) no-repeat right center`);
+            },
+            success: function(response){
+                $("#search-box-dealer").css("background",'#FFFFFF');
+                if(response.success && response.data && response.data.length > 0){
+                    response.data.forEach(function(item) {
+                        const option = item['Dealer'];
+                        $('#suggestion-box-dealer').append($('<option value="' + option + '">' + option + '</option>'));
+                    })
+                    $("#suggestion-box-dealer").show();
+                }
+            }
+		});
+	});
+    $('#suggestion-box-dealer').on('change', function() {
+        $("#search-box-dealer").val( this.value );
+    });
+
+    $("#search-box-customer").on("input", function() {
+        $("#suggestion-box-customer").hide();
+        $("#suggestion-box-customer").html('');
+        $("#suggestion-box-customer").append($('<option value="">Choose an item</option>'));
+		$.ajax({
+            type: "POST",
+            url: suggestSearchUrl,
+            data: {
+                'customer': $(this).val(),
+                '_token': `{{ csrf_token() }}`,
+            },
+            beforeSend: function(){
+                $("#search-box-customer").css("background",`#FFF url({{ URL::to('/') }}/images/loaderIcon.gif) no-repeat right center`);
+            },
+            success: function(response){
+                $("#search-box-customer").css("background",'#FFFFFF');
+                if(response.success && response.data && response.data.length > 0){
+                    response.data.forEach(function(item) {
+                        const option = item['Customer'];
+                        $('#suggestion-box-customer').append($('<option value="' + option + '">' + option + '</option>'));
+                    })
+                    $("#suggestion-box-customer").show();
+                }
+            }
+		});
+	});
+    $('#suggestion-box-customer').on('change', function() {
+        $("#search-box-customer").val( this.value );
+    });
+});
 </script>
 @endsection
