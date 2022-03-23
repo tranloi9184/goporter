@@ -80,6 +80,7 @@ class DashboardController extends Controller
        // $data['dealers'] = $this->dealertblRepository->getSelectOptions();
         //$data['customers'] = $this->customertblRepository->getSelectOptions();
         $data['ihstaffs'] = $this->ihStafftblRepository->getSelectOptions();
+        $data['times'] = $this->ihStafftblRepository->getTimeOptions();
         $data['trucks'] = $this->trucktblRepository->getSelectOptions();
         return view('dashboard.order', $data);
     }
@@ -187,7 +188,6 @@ class DashboardController extends Controller
                 'data' => $data
             ]);
         }catch(Exception $ex){
-            $data = $this->detailstblRepository->suggestSearch($request);
             return response()->json([
                 'success'=> false,
                 'message' => $ex->getMessage()

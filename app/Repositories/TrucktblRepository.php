@@ -7,6 +7,9 @@ use App\Repositories\BaseRepository;
 
 class TrucktblRepository extends BaseRepository
 {
+    const VERHICLES = [
+        'Cargo', '5ton', 'ENT', 'Eco'
+    ];
     /**
      * @var array
      */
@@ -51,11 +54,23 @@ class TrucktblRepository extends BaseRepository
     public function getSelectOptions(){
         $trucks = $this->all();
         $data = [];
+        $maxIndex = 25;
+        $maxIndexC = 26;
         if(count($trucks) > 0){
             foreach($trucks as $key=>$truck){
                 $data[$truck->ID] = $truck->Truck;
             }
         }
+        foreach(self::VERHICLES as $key=>$truck){
+            $data[$truck] = $truck;
+        }
+        for($i=1; $i <= $maxIndex; $i++) {
+            $data['#'.$i] = '#'.$i;
+        }
+        for($i=1; $i <= $maxIndexC; $i++) {
+            $data['C'. $i] = 'C'.$i;
+        }
+
         return array_unique($data);
     }
 }

@@ -4,10 +4,13 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script src="{{ URL::asset('/js/jquery.validate.min.js') }}"></script>
 <style type="text/css">
 /* The container */
 .checkboxes {
     width: 100%;
+    height: 150px;
+    overflow-x: hidden;
 }
 .cbox {
   display: block;
@@ -23,7 +26,7 @@
   user-select: none;
   height: 25px;
   line-height: 25px;
-  width: 50%;
+  width: 33%;
   float: left
 }
 
@@ -41,8 +44,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
   background-color: #eee;
   border-radius: 50%;
 }
@@ -71,10 +74,10 @@
 
 /* Style the checkmark/indicator */
 .cbox .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 7px;
-  height: 10px;
+  left: 7px;
+  top: 4px;
+  width: 6px;
+  height: 9px;
   border: solid white;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
@@ -83,6 +86,14 @@
 }
 .suggestion-box {
     display: none;
+}
+.error {
+    color: #FF0000;
+    font-weight: normal!important;
+    font-size: 14px;
+}
+.form-group-content select {
+    width: 30%;
 }
 </style>
 <!-- Content Header (Page header) -->
@@ -110,16 +121,22 @@
             <div class="col-sm-12">
                 @include('flash::message')
                 <div class="card">
-                    {!! Form::open(['route' => 'dashboard.storeOrder']) !!}
+                    {!! Form::open(['route' => 'dashboard.storeOrder', 'id'=>'form-order']) !!}
                     <div class="card-body">
                         <div class="form-row">
-                            <div class="form-group col-sm-4 ">
-                                {!! Form::label('Dealer', 'Dealer') !!}
-                                {!! Form::text('Dealer', null, ['class' => 'form-control', 'id' => 'search-box-dealer']) !!}
+                            <div class="form-group col-sm-4">
+                                <div class="label">
+                                    {!! Form::label('Dealer', 'Dealer') !!}
+                                    <span class="required"></span>
+                                </div>
+                                {!! Form::text('Dealer', null, ['class' => 'form-control', 'id' => 'search-box-customer']) !!}
 	                            <select class="suggestion-box" id="suggestion-box-dealer"></select>
                             </div>
                             <div class="form-group col-sm-4">
-                                {!! Form::label('Customer', 'Customer') !!}
+                                <div class="label">
+                                    {!! Form::label('Customer', 'Customer') !!}
+                                    <span class="required"></span>
+                                </div>
                                 {!! Form::text('Customer', null, ['class' => 'form-control', 'id' => 'search-box-customer']) !!}
                                 <select class="suggestion-box" id="suggestion-box-customer"></select>
                             </div>
@@ -130,18 +147,29 @@
                                 {!! Form::text('Address', null, ['class' => 'form-control']) !!}
                             </div>
                             <div class="form-group col-sm-4">
-                                {!! Form::label('ProjectNo', 'Project No') !!}
-                                {!! Form::text('ProjectNo', null, ['class' => 'form-control']) !!}
+                                <div class="label">
+                                    {!! Form::label('ProjectNo', 'ProjectNo') !!}
+                                    <span class="required"></span>
+                                </div>
+                                {!! Form::text('ProjectNo', 0, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
                                 {!! Form::label('StartTime', 'Start Time') !!}
-                                {!! Form::text('StartTime', null, ['class' => 'form-control']) !!}
+                                <div class="form-group-content">
+                                    {!! Form::select('StartTimeHour', $times['hours'], '00', ['class' => 'form-control custom-select']); !!}
+                                    {!! Form::select('StartTimeMinute', $times['minutes'], '00', ['class' => 'form-control custom-select']); !!}
+                                    {!! Form::select('StartTimeFormat', $times['format'], 'AM', ['class' => 'form-control custom-select']); !!}
+                                </div>
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('SiteTime', 'Site Time') !!}
-                                {!! Form::text('SiteTime', null, ['class' => 'form-control']) !!}
+                                <div class="form-group-content">
+                                    {!! Form::select('SiteTimeHour', $times['hours'], '00', ['class' => 'form-control custom-select']); !!}
+                                    {!! Form::select('SiteTimeMinute', $times['minutes'], '00', ['class' => 'form-control custom-select']); !!}
+                                    {!! Form::select('SiteTimeFormat', $times['format'], 'AM', ['class' => 'form-control custom-select']); !!}
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
@@ -151,8 +179,11 @@
                                 {!! Form::text('IhStaff', null, ['class' => 'form-control']) !!}
                             </div>
                             <div class="form-group col-sm-4">
-                                {!! Form::label('Subs', 'Subs') !!}
-                                {!! Form::text('Subs', null, ['class' => 'form-control']) !!}
+                                <div class="label">
+                                    {!! Form::label('Subs', 'Subs') !!}
+                                    <span class="required"></span>
+                                </div>
+                                {!! Form::text('Subs', 0, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="form-row">
@@ -167,12 +198,18 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                {!! Form::label('Dolies', 'Dolies') !!}
-                                <input type="text" name="Dolies" class="form-control" />
+                                <div class="label">
+                                    {!! Form::label('Dolies', 'Dolies') !!}
+                                    <span class="required"></span>
+                                </div>
+                                {!! Form::text('Dolies', 0, ['class' => 'form-control']) !!}
                             </div>
                             <div class="form-group col-sm-4">
-                                {!! Form::label('Opens', 'Opens') !!}
-                                <input type="text" name="Opens" class="form-control" />
+                                <div class="label">
+                                    {!! Form::label('Opens', 'Opens') !!}
+                                    <span class="required"></span>
+                                </div>
+                                {!! Form::text('Opens', 0, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="form-row">
@@ -182,7 +219,7 @@
                                 <div class="checkboxes">
                                     @foreach ($trucks as $key=>$truck)
                                         <label class="cbox">{{$truck}}
-                                            <input type="checkbox" checked="checked" name="Vehicles[]">
+                                            <input type="checkbox" name="Vehicles[]" value={{$key}}>
                                             <span class="checkmark"></span>
                                         </label>
                                     @endforeach
@@ -190,12 +227,12 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 {!! Form::label('Screens', 'Screens') !!}
-                                <input type="number" name="Screens" class="form-control" />
+                                {!! Form::text('Screens', 0, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        {!! Form::submit('Add', ['class' => 'btn btn-primary']) !!}
+                        <input class="submit btn btn-primary" type="submit" value="Submit">
                         <a href="{{ route('dashboard.createOrder') }}" class="btn btn-default">Clear</a>
                         <a href="{{ route('dashboard') }}" class="btn btn-default">Cancel</a>
                     </div>
@@ -206,7 +243,7 @@
     </div>
 </section>
 <!-- /.content -->
-<script>
+<script type="text/javascript">
   jQuery( function($) {
     $('.datepicker').datepicker({
       dateFormat: 'yy-mm-dd',
@@ -276,6 +313,65 @@
 	});
     $('#suggestion-box-customer').on('change', function() {
         $("#search-box-customer").val( this.value );
+    });
+    $.validator.setDefaults({
+		submitHandler: function() {
+            $("#form-order").submit();
+		}
+	});
+    $(document).ready(function() {
+        const requiredMessage = 'Value must be assign to this field';
+        const integerMessage = 'Input not valid. Value must be an interger';
+        $("#form-order").validate({
+            rules: {
+				Dealer: "required",
+				Customer: "required",
+                ProjectNo: {
+					required: true,
+					digits: true
+				},
+                Screens: {
+					required: true,
+					digits: true
+				},
+                Subs: {
+					required: true,
+					digits: true
+				},
+                Dolies: {
+					required: true,
+					digits: true
+				},
+                Opens: {
+					required: true,
+					digits: true
+				},
+			},
+			messages: {
+				Dealer: requiredMessage,
+				Customer: requiredMessage,
+				ProjectNo: {
+                    required: requiredMessage,
+					digits: integerMessage
+                },
+                Screens: {
+                    required: requiredMessage,
+					digits: integerMessage
+                },
+                Subs: {
+                    required: requiredMessage,
+					digits: integerMessage
+                },
+                Dolies: {
+                    required: requiredMessage,
+					digits: integerMessage
+                },
+                Opens: {
+                    required: requiredMessage,
+					digits: integerMessage
+                },
+			}
+        });
     });
 });
 </script>

@@ -80,6 +80,8 @@ class DetailstblRepository extends BaseRepository
         }
         $input['Vehicles'] = $vehicles;
         $input['InstallNo'] = (int)$input['InstallNo'];
+        $input['StartTime'] = $input['StartTimeHour'] . ':' . $input['StartTimeMinute'] . ' ' . $input['StartTimeFormat'];
+        $input['SiteTime'] = $input['SiteTimeHour'] . ':' . $input['SiteTimeMinute'] . ' ' . $input['SiteTimeFormat'];
         return $this->create($input);
     }
 
@@ -134,13 +136,15 @@ class DetailstblRepository extends BaseRepository
         $result = [];
         if ($dealer) {
             $query->select('Dealer')
-                    ->where('Dealer', 'like', '%'.$dealer.'%')
+                    //->where('Dealer', 'like', '%'.$dealer.'%')
+                    ->where('Dealer', 'like', $dealer.'%')
                     ->distinct();
             $result = $query->get();
         }
         if ($customer) {
             $query->select('Customer')
-                    ->where('Customer', 'like', '%'.$customer.'%')
+                  //  ->where('Customer', 'like', '%'.$customer.'%')
+                    ->where('Customer', 'like', $customer.'%')
                     ->distinct()
                     ->distinct();
             $result = $query->get();

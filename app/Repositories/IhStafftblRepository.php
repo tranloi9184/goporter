@@ -59,4 +59,27 @@ class IhStafftblRepository extends BaseRepository
         }
         return array_unique($data);
     }
+
+    public function getTimeOptions(){
+        $maxHour = 12;
+        $maxMinues = 60;
+        $data = [];
+        $hours = [];
+        $minutes = [];
+        for($i=0; $i <= $maxHour; $i++) {
+            $hour = $i < 10 ? '0'.$i : $i;
+            $hours[$hour] = $hour;
+        }
+        for($i=0; $i <= $maxMinues; $i++) {
+            $minute = $i < 10 ? '0'.$i : $i;
+            $minutes[$minute] = $minute;
+        }
+        $data['hours'] = $hours;
+        $data['minutes'] = $minutes;
+        $data['format'] = [
+            'AM' => 'AM',
+            'PM' => 'PM'
+        ];
+        return $data;
+    }
 }
