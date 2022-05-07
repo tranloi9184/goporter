@@ -30,6 +30,7 @@
         font-size: 20px;
         text-align: center;
         font-weight: bold;
+        color: #464646
     }
     .schedule-item {
         border-top: 1px solid #333333;
@@ -102,6 +103,21 @@
     .dncalendar-header .dncalendar-links .dncalendar-prev-month::after{
         content: 'prev';
     }
+    .ihstaff {
+        color: #829CB9
+    }
+    .subs{
+        color: #EFC833
+    }
+    .small-head {
+        color: #BABABA
+    }
+    .field-date {
+        color: #C43836
+    }
+    .field-item {
+        color: #6DC38A
+    }
 </style>
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -131,13 +147,13 @@
                     <div class="card-body">
                         <div class="form-row">
                             <div class="form-group col-sm-4">
-                                {!! Form::label('fromDate', 'From:') !!}
-                                {!! Form::text('fromDate', null, ['class' => 'form-control', 'id' => 'datepicker1']) !!}
+                                {!! Form::label('chooseDate', 'Date:') !!}
+                                {!! Form::text('chooseDate', null, ['class' => 'form-control', 'id' => 'datepicker']) !!}
                             </div>
-                            <div class="form-group col-sm-4">
-                                {!! Form::label('toDate', 'To:') !!}
-                                {!! Form::text('toDate', null, ['class' => 'form-control', 'id' => 'datepicker2']) !!}
-                            </div>
+                        </div>
+                        <div class="form-row">
+                            {!! Form::hidden('fromDate', null, ['class' => 'form-control', 'id'=>'fromDate']) !!}
+                            {!! Form::hidden('toDate', null, ['class' => 'form-control', 'id'=>'toDate']) !!}
                         </div>
                     </div>
                     <div class="card-footer">
@@ -162,7 +178,7 @@
             <div class="modal col-sm-10 mx-auto modal-container" id="modal-schedule">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <span class="this-week">This week</span>
+                    <span class="this-week">Current Week</span>
                 </div>
                 <div class="card-body swiper">
                     <div class="swiper-wrapper">
@@ -177,33 +193,33 @@
                                     <span class="col-sm-2">{{$detail['Dealer']}}</span>
                                     <span class="col-sm-2">{{$detail['Customer']}}</span>
                                     <span class="col-sm-2">{{$detail['ProjectNo']}}</span>
-                                    <span class="col-sm-3">{{ date('h:i A', strtotime($detail['StartTime']))}}</span>
+                                    <span class="col-sm-3 field-date">{{ date('h:i A', strtotime($detail['StartTime']))}}</span>
                                     <span class="col-sm-3">{{$detail['StartWhere']}}</span>
                                 </div>
                                 <div class="row">
                                     <span class="col-sm-2"></span>
                                     <span class="col-sm-3">{{$detail['Address']}}</span>
                                     <span class="col-sm-2"></span>
-                                    <span class="col-sm-3">{{ date('h:i A', strtotime($detail['SiteTime']))}}</span>
+                                    <span class="col-sm-3 field-date">{{ date('h:i A', strtotime($detail['SiteTime']))}}</span>
                                     <span class="col-sm-2"></span>
                                 </div>
                                 <div class="row font-weight-bold">
-                                    <span class="col-sm-3">IhStaff</span>
-                                    <span class="col-sm-3">Subs</span>
-                                    <span class="col-sm-1">Veh</span>
-                                    <span class="col-sm-1">Scr</span>
-                                    <span class="col-sm-1">Dol</span>
-                                    <span class="col-sm-1">Open</span>
-                                    <span class="col-sm-2">Equip</span>
+                                    <span class="col-sm-3 small-head">IhStaff</span>
+                                    <span class="col-sm-3 small-head">Subs</span>
+                                    <span class="col-sm-1 small-head">Veh</span>
+                                    <span class="col-sm-1 small-head">Scr</span>
+                                    <span class="col-sm-1 small-head">Dol</span>
+                                    <span class="col-sm-1 small-head">Open</span>
+                                    <span class="col-sm-2 small-head">Equip</span>
                                 </div>
                                 <div class="row">
-                                    <span class="col-sm-3">{{ $detail['IhStaff']}}</span>
-                                    <span class="col-sm-3">{{ $detail['Subs']}}</span>
-                                    <span class="col-sm-1">{{ $detail['Vehicles'] }}</span>
-                                    <span class="col-sm-1">{{ $detail['Screens'] }}</span>
-                                    <span class="col-sm-1">{{ $detail['Flats'] }}</span>
-                                    <span class="col-sm-1">{{ $detail['Opens'] }}</span>
-                                    <span class="col-sm-2">{{ $detail['Equip'] }}</span>
+                                    <span class="col-sm-3 ihstaff">{{ $detail['IhStaff']}}</span>
+                                    <span class="col-sm-3 subs">{{ $detail['Subs']}}</span>
+                                    <span class="col-sm-1 vehicles field-item">{{ $detail['Vehicles'] }}</span>
+                                    <span class="col-sm-1 screens field-item">{{ $detail['Screens'] }}</span>
+                                    <span class="col-sm-1 flats field-item">{{ $detail['Flats'] }}</span>
+                                    <span class="col-sm-1 opens field-item">{{ $detail['Opens'] }}</span>
+                                    <span class="col-sm-2 equip field-item">{{ $detail['Equip'] }}</span>
                                 </div>
                             </div>
                             @endforeach
@@ -226,15 +242,13 @@
   var queryString = getUrlVars();
   var count = 2;
   jQuery( function($) {
-    for(let i=1; i <= count;i++){
-        $('#datepicker'+i).datepicker({
-            dateFormat: 'yy-mm-dd',
-            showOn: "button",
-            buttonImage: `{{ URL::to('/') }}/images/icon-calendar.png`,
-            buttonImageOnly: true,
-            buttonText: "Select date",
-        });
-    }
+    $('#datepicker').datepicker({
+        dateFormat: 'yy-mm-dd',
+        showOn: "button",
+        buttonImage: `{{ URL::to('/') }}/images/icon-calendar.png`,
+        buttonImageOnly: true,
+        buttonText: "Select date",
+    });
   });
 
   jQuery(document).ready(function($) {
@@ -257,8 +271,7 @@
               //  alert(date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear());
                 const dateClick = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
                 if(dateClick){
-                    $('#datepicker1').val(dateClick);
-                    $('#datepicker2').val(dateClick);
+                    $('#datepicker').val(dateClick);
                     $('#schedules').submit();
                 }
             }
@@ -283,14 +296,14 @@
             });
 
             $('.this-week').click(function(){
-                let curr = new Date; // get current date
-                let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-                let last = first + 6; // last day is the first day + 6
-                let firstday = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-                let lastday = new Date(curr.setDate(last)).toISOString().slice(0, 10);
-                if(firstday && lastday){
-                    $('#datepicker1').val(firstday);
-                    $('#datepicker2').val(lastday);
+                const toDate = new Date; // get current date
+                const toDay = parseInt(String((new Date).getDate()).padStart(2, '0')); // First day is the day of the month - the day of the week
+                const firstDay = new Date(toDate.setDate(toDay - 1)).toISOString().slice(0, 10);
+                const lastDay = new Date(toDate.setDate(toDay + 3)).toISOString().slice(0, 10);
+                if(firstDay && lastDay){
+                    $('#chooseDate').val('');
+                    $('#fromDate').val(firstDay);
+                    $('#toDate').val(lastDay);
                     $('#schedules').submit();
                 }
             })
@@ -302,8 +315,7 @@
             let yyyy = today.getFullYear();
             today = yyyy + '-' + mm + '-' + dd;
             if(today){
-                $('#datepicker1').val(today);
-                $('#datepicker2').val(today);
+                $('#datepicker').val(today);
                 $('#schedules').submit();
             }
         })

@@ -101,6 +101,7 @@ class DetailstblRepository extends BaseRepository
         //DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
         $fromDate = isset($params['fromDate']) ? $params['fromDate'] : null;
         $toDate = isset($params['toDate']) ? $params['toDate'] : null;
+        $chooseDate = isset($params['chooseDate']) ? $params['chooseDate'] : null;
         $limit = isset($params['limit']) ? $params['limit'] : self::PAGING_LIMIT;
         $columns = isset($params['columns']) ? $params['columns'] : ['*'];
         $query = $this->model->newQuery();
@@ -109,6 +110,9 @@ class DetailstblRepository extends BaseRepository
         }
         if ($toDate) {
             $query->where('EquipBkDate', '<=', $toDate);
+        }
+        if ($chooseDate) {
+            $query->where('EquipBkDate', '=', $chooseDate);
         }
         //$query->groupBy('EquipBkDate');
         $result = $query->paginate($limit, $columns);
