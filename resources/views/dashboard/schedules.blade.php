@@ -8,6 +8,9 @@
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="{{ URL::asset('/js/dncalendar.min.js') }}"></script>
 <script src="{{ URL::asset('/js/swiper-bundle.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.min.js"></script>
+
 <style type="text/css">
     .table-header {
         cursor: pointer;
@@ -74,7 +77,7 @@
     .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after{
         font-size: 32px;
     }
-    .this-week {
+    .modal-header-left {
         position: absolute;
         font-size: 21px;
         font-weight: bold;
@@ -84,6 +87,10 @@
         z-index: 100;
         left: 20px;
         top: 10px;
+        display: flex;
+    }
+    .this-week{
+        margin-right: 20px;
     }
     .nodata {
         font-size: 23px;
@@ -130,9 +137,14 @@
     .modal-scroll .swiper-btn {
         display: none;
     }
+    .modal-header{
+        height: 55px
+    }
     .modal-header .close {
-        right: 12%;
+        right: 10%;
         font-size: 35px;
+        position: fixed;
+        z-index: 100;
     }
 </style>
 <!-- Content Header (Page header) -->
@@ -199,11 +211,18 @@
             ?>
             <div class="<?php echo $className; ?>" id="modal-schedule">
                 <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="this-week">Current Week</span>
+                        <div class="pdf">
+                            <!-- <button id="cmd" onclick="printPdf()">generate PDF</button> -->
+                            <img src="{{ URL::to('/') }}/images/print.png" width="32" onclick="printPdf()"/>
+                            <div id="btn_convert">Convert Pdf</div>
+                        </div>
+                    </div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <span class="this-week">Current Week</span>
                 </div>
                 <div class="card-body swiper">
-                    <div class="schedule-wrapper swiper-wrapper">
+                    <div class="schedule-wrapper swiper-wrapper" id="schedule-content">
                         @foreach ($detailstbls as $key=>$detailstbl)
                         <div class="schedule-day swiper-slide">
                             <p class="schedule-title">
@@ -299,6 +318,7 @@
             </div>
             @endif
         </div>
+       <div id="previewImg"></div>
     </div>
 </section>
 <script>
@@ -398,5 +418,61 @@
             }
         })
     });
+    $("#btn_convert").on('click', function () {
+        html2canvas(document.getElementById("schedule-content"),{
+            allowTaint: true,
+            useCORS: true
+        }).then(function (canvas) {
+            var anchorTag = document.createElement("a");
+            document.body.appendChild(anchorTag);
+            document.getElementById("previewImg").appendChild(canvas);			anchorTag.download = "filename.jpg";
+            anchorTag.href = canvas.toDataURL();
+            anchorTag.target = '_blank';
+            anchorTag.click();
+        });
+    });
+    function printPdf() {
+        var elementHTML = document.getElementById('schedule-content');
+        html2canvas(elementHTML, {
+            useCORS: true,
+            onrendered: function(canvas) {
+            var pdf = new jsPDF('l', 'pt', 'a4');
+
+            var pageHeight = $('#schedule-content').height();
+            var pageWidth = $('#schedule-content').width();
+
+            for (var i = 0; i <= elementHTML.clientHeight / pageHeight; i++) {
+                var srcImg = canvas;
+                var sX = 0;
+                var sY = pageHeight * i; // start 1 pageHeight down for every new page
+                var sWidth = pageWidth;
+                var sHeight = pageHeight;
+                var dX = 0;
+                var dY = 0;
+                var dWidth = pageWidth;
+                var dHeight = pageHeight;
+
+                window.onePageCanvas = document.createElement("canvas");
+                onePageCanvas.setAttribute('width', pageWidth);
+                onePageCanvas.setAttribute('height', pageHeight);
+                var ctx = onePageCanvas.getContext('2d');
+                ctx.drawImage(srcImg, sX, sY, sWidth, sHeight, dX, dY, dWidth, dHeight);
+
+                var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+                var width = onePageCanvas.width;
+                var height = onePageCanvas.clientHeight;
+
+             //   if (i > 0) // if we're on anything other than the first page, add another page
+             //   pdf.addPage(612, 864); // 8.5" x 12" in pts (inches*72)
+
+            //    pdf.setPage(i + 1); // now we declare that we're working on that page
+                pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width * .3), (height * .3)); // add content to the page
+            }
+                    
+            // Save the PDF
+            pdf.save('schedule-content.pdf');
+            }
+        });
+    }
 </script>
 @endsection
