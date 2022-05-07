@@ -8,7 +8,6 @@
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script src="{{ URL::asset('/js/dncalendar.min.js') }}"></script>
 <script src="{{ URL::asset('/js/swiper-bundle.min.js') }}"></script>
-
 <style type="text/css">
     .table-header {
         cursor: pointer;
@@ -43,11 +42,12 @@
         left: 0;
         right: 0;
         top: 5%;
-        background-color: #eeeeee;
+        background-color: #ffffff;
         padding: 0!important;
     }
     .schedule-day {
         overflow-x: hidden;
+        margin-right: 25px;
     }
     .swiper {
         height: 88%;
@@ -82,8 +82,8 @@
         text-decoration: underline;
         cursor: pointer;
         z-index: 100;
-        left: 3%;
-        top: 6%;
+        left: 20px;
+        top: 10px;
     }
     .nodata {
         font-size: 23px;
@@ -117,6 +117,22 @@
     }
     .field-item {
         color: #6DC38A
+    }
+    .swiper-wrapper {
+        display: flex;
+    }
+    .schedule-wrapper {
+        display: flex;
+    }
+    .modal-scroll {
+        overflow-x: auto!important;
+    }
+    .modal-scroll .swiper-btn {
+        display: none;
+    }
+    .modal-header .close {
+        right: 12%;
+        font-size: 35px;
     }
 </style>
 <!-- Content Header (Page header) -->
@@ -175,13 +191,62 @@
                 <div id="dncalendar-container"></div>
             </div>
             @if(count($detailstbls) > 0)
-            <div class="modal col-sm-10 mx-auto modal-container" id="modal-schedule">
+            <?php 
+                $className = "modal col-sm-10 mx-auto modal-container";
+                if(count($detailstbls) > 1){
+                    $className .= " many-days";
+                }
+            ?>
+            <div class="<?php echo $className; ?>" id="modal-schedule">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <span class="this-week">Current Week</span>
                 </div>
                 <div class="card-body swiper">
-                    <div class="swiper-wrapper">
+                    <div class="schedule-wrapper swiper-wrapper">
+                        @foreach ($detailstbls as $key=>$detailstbl)
+                        <div class="schedule-day swiper-slide">
+                            <p class="schedule-title">
+                                {{ date('F j, Y',strtotime($key))}}
+                            </p>
+                            @foreach ($detailstbl as $key1=>$detail)
+                            <div class="schedule-item">
+                                <div class="row font-weight-bold">
+                                    <span class="col-sm-2">{{$detail['Dealer']}}</span>
+                                    <span class="col-sm-2">{{$detail['Customer']}}</span>
+                                    <span class="col-sm-2">{{$detail['ProjectNo']}}</span>
+                                    <span class="col-sm-3 field-date">{{ date('h:i A', strtotime($detail['StartTime']))}}</span>
+                                    <span class="col-sm-3">{{$detail['StartWhere']}}</span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-sm-2"></span>
+                                    <span class="col-sm-3">{{$detail['Address']}}</span>
+                                    <span class="col-sm-2"></span>
+                                    <span class="col-sm-3 field-date">{{ date('h:i A', strtotime($detail['SiteTime']))}}</span>
+                                    <span class="col-sm-2"></span>
+                                </div>
+                                <div class="row font-weight-bold">
+                                    <span class="col-sm-3 small-head">IhStaff</span>
+                                    <span class="col-sm-3 small-head">Subs</span>
+                                    <span class="col-sm-1 small-head">Veh</span>
+                                    <span class="col-sm-1 small-head">Scr</span>
+                                    <span class="col-sm-1 small-head">Dol</span>
+                                    <span class="col-sm-1 small-head">Open</span>
+                                    <span class="col-sm-2 small-head">Equip</span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-sm-3 ihstaff">{{ $detail['IhStaff']}}</span>
+                                    <span class="col-sm-3 subs">{{ $detail['Subs']}}</span>
+                                    <span class="col-sm-1 vehicles field-item">{{ $detail['Vehicles'] }}</span>
+                                    <span class="col-sm-1 screens field-item">{{ $detail['Screens'] }}</span>
+                                    <span class="col-sm-1 flats field-item">{{ $detail['Flats'] }}</span>
+                                    <span class="col-sm-1 opens field-item">{{ $detail['Opens'] }}</span>
+                                    <span class="col-sm-2 equip field-item">{{ $detail['Equip'] }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endforeach
                         @foreach ($detailstbls as $key=>$detailstbl)
                         <div class="schedule-day swiper-slide">
                             <p class="schedule-title">
@@ -279,24 +344,37 @@
 
         // init calendar
         my_calendar.build();
-
-        <?php  if(count($detailstbls) > 0){ ?>
-            $('#modal-schedule').modal('show');
-            const swiper = new Swiper('.swiper', {
-                pagination: {
-                    el: '.swiper-pagination',
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                scrollbar: {
-                    el: '.swiper-scrollbar',
-                }
-            });
-
+        let detailstblCount = <?php echo count($detailstbls); ?>;
+        if(detailstblCount > 0){
+            $('#modal-schedule').modal('toggle');
+            if (window.innerWidth <= 1601) {
+                const swiper = new Swiper('.swiper', {
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    scrollbar: {
+                        el: '.swiper-scrollbar',
+                    }
+                });
+            }else if(detailstblCount > 1){
+              //  const widthElement = parseInt((window.innerWidth - 150) / 2) * detailstblCount + 'px';
+                const widthElement = parseInt((0.9*window.innerWidth - 110) / 2);
+                $('.card-body').removeClass('swiper');
+                $('.schedule-day').removeClass('swiper-slide');
+                $('.schedule-wrapper').removeClass('swiper-wrapper');
+                $('.modal-container').addClass('modal-scroll');
+               // $('.modal-container .card-body').width(widthElement);
+                $('.schedule-day').width(widthElement + 'px');
+                $('.modal-container .schedule-wrapper').width(widthElement * 4 + 'px');
+                $('.modal-container .modal-header').width(widthElement * 4 + 'px');
+            }
             $('.this-week').click(function(){
-                const toDate = new Date; // get current date
+               // const toDate = new Date(); // get current date
+                const toDate = new Date(2021,8,12); // get current date
                 const toDay = parseInt(String((new Date).getDate()).padStart(2, '0')); // First day is the day of the month - the day of the week
                 const firstDay = new Date(toDate.setDate(toDay - 1)).toISOString().slice(0, 10);
                 const lastDay = new Date(toDate.setDate(toDay + 3)).toISOString().slice(0, 10);
@@ -307,7 +385,7 @@
                     $('#schedules').submit();
                 }
             })
-        <?php } ?>
+        }
         $('.btn-today').click(function(){
             let today = new Date();
             let dd = String(today.getDate()).padStart(2, '0');
