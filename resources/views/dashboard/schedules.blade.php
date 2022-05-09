@@ -216,56 +216,13 @@
                         <div class="pdf">
                             <!-- <button id="cmd" onclick="printPdf()">generate PDF</button> -->
                             <img src="{{ URL::to('/') }}/images/print.png" width="32" onclick="printPdf()"/>
-                            <div id="btn_convert">Convert Pdf</div>
+                            <!-- <div id="btn_convert">Convert Pdf</div> -->
                         </div>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="card-body swiper">
                     <div class="schedule-wrapper swiper-wrapper" id="schedule-content">
-                        @foreach ($detailstbls as $key=>$detailstbl)
-                        <div class="schedule-day swiper-slide">
-                            <p class="schedule-title">
-                                {{ date('F j, Y',strtotime($key))}}
-                            </p>
-                            @foreach ($detailstbl as $key1=>$detail)
-                            <div class="schedule-item">
-                                <div class="row font-weight-bold">
-                                    <span class="col-sm-2">{{$detail['Dealer']}}</span>
-                                    <span class="col-sm-2">{{$detail['Customer']}}</span>
-                                    <span class="col-sm-2">{{$detail['ProjectNo']}}</span>
-                                    <span class="col-sm-3 field-date">{{ date('h:i A', strtotime($detail['StartTime']))}}</span>
-                                    <span class="col-sm-3">{{$detail['StartWhere']}}</span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-sm-2"></span>
-                                    <span class="col-sm-3">{{$detail['Address']}}</span>
-                                    <span class="col-sm-2"></span>
-                                    <span class="col-sm-3 field-date">{{ date('h:i A', strtotime($detail['SiteTime']))}}</span>
-                                    <span class="col-sm-2"></span>
-                                </div>
-                                <div class="row font-weight-bold">
-                                    <span class="col-sm-3 small-head">IhStaff</span>
-                                    <span class="col-sm-3 small-head">Subs</span>
-                                    <span class="col-sm-1 small-head">Veh</span>
-                                    <span class="col-sm-1 small-head">Scr</span>
-                                    <span class="col-sm-1 small-head">Dol</span>
-                                    <span class="col-sm-1 small-head">Open</span>
-                                    <span class="col-sm-2 small-head">Equip</span>
-                                </div>
-                                <div class="row">
-                                    <span class="col-sm-3 ihstaff">{{ $detail['IhStaff']}}</span>
-                                    <span class="col-sm-3 subs">{{ $detail['Subs']}}</span>
-                                    <span class="col-sm-1 vehicles field-item">{{ $detail['Vehicles'] }}</span>
-                                    <span class="col-sm-1 screens field-item">{{ $detail['Screens'] }}</span>
-                                    <span class="col-sm-1 flats field-item">{{ $detail['Flats'] }}</span>
-                                    <span class="col-sm-1 opens field-item">{{ $detail['Opens'] }}</span>
-                                    <span class="col-sm-2 equip field-item">{{ $detail['Equip'] }}</span>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endforeach
                         @foreach ($detailstbls as $key=>$detailstbl)
                         <div class="schedule-day swiper-slide">
                             <p class="schedule-title">
@@ -389,12 +346,12 @@
                 $('.modal-container').addClass('modal-scroll');
                // $('.modal-container .card-body').width(widthElement);
                 $('.schedule-day').width(widthElement + 'px');
-                $('.modal-container .schedule-wrapper').width(widthElement * 4 + 'px');
-                $('.modal-container .modal-header').width(widthElement * 4 + 'px');
+                $('.modal-container .schedule-wrapper').width(widthElement * detailstblCount + 'px');
+                $('.modal-container .modal-header').width(widthElement * detailstblCount + 'px');
             }
             $('.this-week').click(function(){
-               // const toDate = new Date(); // get current date
-                const toDate = new Date(2021,8,12); // get current date
+                const toDate = new Date(); // get current date
+               // const toDate = new Date(2021,8,12); // get current date
                 const toDay = parseInt(String((new Date).getDate()).padStart(2, '0')); // First day is the day of the month - the day of the week
                 const firstDay = new Date(toDate.setDate(toDay - 1)).toISOString().slice(0, 10);
                 const lastDay = new Date(toDate.setDate(toDay + 3)).toISOString().slice(0, 10);
@@ -418,19 +375,19 @@
             }
         })
     });
-    $("#btn_convert").on('click', function () {
-        html2canvas(document.getElementById("schedule-content"),{
-            allowTaint: true,
-            useCORS: true
-        }).then(function (canvas) {
-            var anchorTag = document.createElement("a");
-            document.body.appendChild(anchorTag);
-            document.getElementById("previewImg").appendChild(canvas);			anchorTag.download = "filename.jpg";
-            anchorTag.href = canvas.toDataURL();
-            anchorTag.target = '_blank';
-            anchorTag.click();
-        });
-    });
+    // $("#btn_convert").on('click', function () {
+    //     html2canvas(document.getElementById("schedule-content"),{
+    //         allowTaint: true,
+    //         useCORS: true
+    //     }).then(function (canvas) {
+    //         var anchorTag = document.createElement("a");
+    //         document.body.appendChild(anchorTag);
+    //         document.getElementById("previewImg").appendChild(canvas);			anchorTag.download = "filename.jpg";
+    //         anchorTag.href = canvas.toDataURL();
+    //         anchorTag.target = '_blank';
+    //         anchorTag.click();
+    //     });
+    // });
     function printPdf() {
         var elementHTML = document.getElementById('schedule-content');
         html2canvas(elementHTML, {
@@ -462,11 +419,11 @@
                 var width = onePageCanvas.width;
                 var height = onePageCanvas.clientHeight;
 
-             //   if (i > 0) // if we're on anything other than the first page, add another page
-             //   pdf.addPage(612, 864); // 8.5" x 12" in pts (inches*72)
+            //    if (i > 0) // if we're on anything other than the first page, add another page
+            //    pdf.addPage(612, 864); // 8.5" x 12" in pts (inches*72)
 
             //    pdf.setPage(i + 1); // now we declare that we're working on that page
-                pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width * .3), (height * .3)); // add content to the page
+                pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width * .35), (height * .35)); // add content to the page
             }
                     
             // Save the PDF
